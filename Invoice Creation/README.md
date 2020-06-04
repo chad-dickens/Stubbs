@@ -5,3 +5,5 @@ The premise for this project is that you have a database of sales data and you n
 ![alt text](https://github.com/chad-dickens/Stubbs/blob/master/Invoice%20Creation/Main_Window.PNG)
 
 The run button is only enabled once the user has made a valid selection with no rates or address issues, preventing errors occuring while the process is running. The invoices are created from templates in two separate Excel worksheets, exported to PDFs, and then emailed to customers.
+
+Main_Module does the actual work of creating the invoices and sending the emails. Common contains sub procedures and functions that are called by the other modules. The other files are backend for user forms.
