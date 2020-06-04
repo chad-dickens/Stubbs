@@ -172,7 +172,7 @@ End With
 DatesRight = True
 
 'Setting our error message
-BankAWrongDate = "Hi " & sUserName & "," & vbNewLine & "It looks like the CBA file you have selected does not cover the period of "
+BankAWrongDate = "Hi " & sUserName & "," & vbNewLine & "It looks like the Bank A file you have selected does not cover the period of "
 BankAWrongDate = BankAWrongDate & MonthName(bSelectedMonth) & " " & lSelectedYear & ". "
 BankAWrongDate = BankAWrongDate & "Please choose your file again."
     
@@ -246,7 +246,7 @@ End With
 DatesRight = True
 
 'Setting our error message
-BankBWrongDate = "Hi " & sUserName & "," & vbNewLine & "It looks like the WBC file you have selected does not cover the period of "
+BankBWrongDate = "Hi " & sUserName & "," & vbNewLine & "It looks like the Bank B file you have selected does not cover the period of "
 BankBWrongDate = BankBWrongDate & MonthName(bSelectedMonth) & " " & lSelectedYear & ". "
 BankBWrongDate = BankBWrongDate & "Please choose your file again."
 
