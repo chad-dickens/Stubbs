@@ -192,7 +192,7 @@ Dim sConnect As String
 Dim Param As Variant
 
 For Each Param In Parameters
-    SQL = Replace(SQL, "?", Param, , 1)
+    SQL = SQLString(SQL, Param)
 Next
 
 'Creating the connection string
