@@ -37,7 +37,7 @@ Dim boolMatched As Boolean
 Dim msg1 As String, msg2 As String
 
 'Setting variable values
-sEmail = "chad.elias.dickens@gmail.com"
+sEmail = "myemail@gmail.com"
 
 'Setting default value
 ExitButton = False
