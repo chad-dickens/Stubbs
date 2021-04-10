@@ -30,69 +30,69 @@ Private Sub UserForm_Initialize()
     Call find_row_col(False)
     
     'Setting the round number in the userform
-    round_label.Caption = "Round " & CStr(round_num)
+    round_label.Caption = "Round " & CStr(RoundNum)
     
     'Changing the button caption if it's the last round
-    If round_num = 23 Then next_button.Caption = "Complete"
+    If RoundNum = 23 Then next_button.Caption = "Complete"
     
     'Find the teams playing in this round
     Do While True
         With fixture_sht
             
             'Making sure we don't iterate longer than we have to
-            If .Cells(start_row, 1).Value > round_num Or IsEmpty(.Cells(start_row, 1).Value) Then
+            If .Cells(start_row, 1).Value > RoundNum Or IsEmpty(.Cells(start_row, 1).Value) Then
                 Exit Do
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_1_box.AddItem .Cells(start_row, 4).Text
                 game_1_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_2_box.AddItem .Cells(start_row, 4).Text
                 game_2_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_3_box.AddItem .Cells(start_row, 4).Text
                 game_3_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_4_box.AddItem .Cells(start_row, 4).Text
                 game_4_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_5_box.AddItem .Cells(start_row, 4).Text
                 game_5_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_6_box.AddItem .Cells(start_row, 4).Text
                 game_6_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_7_box.AddItem .Cells(start_row, 4).Text
                 game_7_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_8_box.AddItem .Cells(start_row, 4).Text
                 game_8_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
             End If
             
-            If .Cells(start_row, 1).Value = round_num Then
+            If .Cells(start_row, 1).Value = RoundNum Then
                 game_9_box.AddItem .Cells(start_row, 4).Text
                 game_9_box.AddItem .Cells(start_row, 5).Text
                 start_row = start_row + 1
@@ -227,7 +227,7 @@ Private Sub next_button_Click()
     End With
     
     'If the round number is 23 it means that there are no further rounds
-    If round_num = 23 Then
+    If RoundNum = 23 Then
         Unload Enter_Tips
     Else
         Unload Enter_Tips
