@@ -1,11 +1,12 @@
 Attribute VB_Name = "Main"
 Option Explicit
+Option Base 1
 
 'Public variables to be accessed by all modules
 Public Entrant As String
 Public ColumnNum As Integer
 Public RowNum As Integer
-Public round_num As Integer
+Public RoundNum As Integer
 
 'Password for all sheets
 Public Const Password As String = "exonthebeach"
@@ -64,7 +65,7 @@ Call Optimize_On
         
         Do While True
             If IsEmpty(.Cells(RowNum, ColumnNum).Value) Then
-                round_num = .Cells(RowNum, 1).Value
+                RoundNum = .Cells(RowNum, 1).Value
                 Exit Do
             End If
             RowNum = RowNum + 1
@@ -130,6 +131,32 @@ Public Function rounds_completed() As Variant
 
 End Function
 
+Public Function decide_winner(game_score As Range, team1 As Range, team2 As Range) As Variant
+'Function for deciding the winner in the fixture sheet - to be used as an actual excel function
+    
+    On Error GoTo ErrHandler
+    
+    Dim score1 As Integer
+    Dim score2 As Integer
+
+    score1 = Int(Left(game_score.Text, InStr(1, game_score.Text, " - ") - 1))
+    score2 = Int(Mid(game_score.Text, InStr(1, game_score.Text, " - ") + 3))
+        
+    If score1 > score2 Then
+        decide_winner = team1.Text
+    ElseIf score1 < score2 Then
+        decide_winner = team2.Text
+    Else
+        decide_winner = "Draw"
+    End If
+    
+    Exit Function
+
+ErrHandler:
+decide_winner = -1
+
+End Function
+
 Sub update_fixture_results()
 'Accesses the internet and gets a HTML file of the most recent AFL results.
 'Uses this to update the results for each game and the scores for each person.
@@ -142,13 +169,11 @@ Sub update_fixture_results()
     fixture_sht.Unprotect Password = Password
     main_sht.Unprotect Password = Password
 
-    Dim htm As Object
     Dim Tr As Object
-    Dim Td As Object
     Dim iRow As Integer
-    Dim iCol As Integer
     Dim HTML_Content As Object
     Dim error_message As String
+    Dim arr As Variant
     
     'Create HTMLFile Object
     Set HTML_Content = CreateObject("htmlfile")
@@ -172,10 +197,6 @@ Sub update_fixture_results()
         HTML_Content.Body.Innerhtml = .responseText
     End With
     
-    'Set which row and column we want to start pasting data into
-    iRow = 1
-    iCol = 1
-    
     'Check if a table exists at all
     error_message = "There is a problem with https://fixturedownload.com/results/afl-2021. " & _
                     "Please ensure this website is correct."
@@ -185,23 +206,39 @@ Sub update_fixture_results()
         GoTo ErrHandler
     End If
     
+    'Put Current Fixture Sheet into Memory
+    arr = fixture_sht.Range("A1").CurrentRegion
+    
     'Loop through HTML table
     With HTML_Content.getElementsByTagName("table")(0)
         
         'Checking that the table has the right dimensions
-        If .Rows.Length < 199 Or .Rows(1).Cells.Length <> 6 Then
+        If .Rows.Length < 10 Or .Rows(1).Cells.Length <> 6 Then
             MsgBox error_message
             GoTo ErrHandler
         End If
         
-        'Iterating through the table
+        'Iterating through the html table
         For Each Tr In .Rows
-            For Each Td In Tr.Cells
-                fixture_sht.Cells(iRow, iCol).Value = Td.innerText
-                iCol = iCol + 1
-            Next Td
-            iCol = 1
-            iRow = iRow + 1
+            
+            'At the same time, for each iteration of the html table, there is a full loop
+            'through arr, to match up teams playing and rounds. If there is a match, the
+            'corresponding result is input into the fixture sheet. The reason for this
+            'is to ensure that if in future rounds the order of teams playing is changed
+            'in the fixture, it won't ruin the workbook. This will also avoid problems
+            'if a round isn't played at all.
+            
+            For iRow = 2 To UBound(arr)
+                
+                If Tr.Cells(3).innerText = arr(iRow, 4) And _
+                Tr.Cells(4).innerText = arr(iRow, 5) And _
+                Tr.Cells(0).innerText = CStr(arr(iRow, 1)) Then
+                    fixture_sht.Cells(iRow, 6).Value = "'" & Tr.Cells(5).innerText
+                    Exit For
+                End If
+                
+            Next iRow
+            
         Next Tr
     End With
     
@@ -223,6 +260,8 @@ Sub update_fixture_results()
     main_sht.Select
     
     Call Optimize_Off
+    
+    Exit Sub
     
 ErrHandler:
 'For handling errors
