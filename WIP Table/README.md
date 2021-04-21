@@ -2,7 +2,7 @@
 
 The scenario for this project is that you are a professional services firm and all of your staff keep detailed logs of their time. When getting paid by clients, you need to concisely show the time spent on that particular client and where specifically the time was spent.
 
-<h4>A spreadsheet of time entries like this:</h4>
+<h2>A spreadsheet of time entries like this:</h2>
 
 ![Input](Input.PNG)
 
@@ -18,7 +18,12 @@ Note:
 </ul>
 </i>
 
-<h4>Needs to be converted to a table like this:</h4>
+<h2>Needs to be converted to a table like this:</h2>
 
 ![Result](Result.PNG)
 
+What is occurring here is that each combination of person and hourly rate is being consolidated and added together for each category. The category names themselves need to be sorted in ascending order and people need to be sorted in descending order based on who has the single highest hourly rate. I have used arrays extensively in this project to help it run quicker.
+
+This is in theory a relatively simple exercise, except that VBA does not have great support for arrays as far as built in functions go and so I had to create a lot of functions to help me. In the 'Common' module, there is a quicksort algorithm function that can sort a single array in ascending or descending order, a quicksort function that can sort mutli dimmensional arrays, a function to add a new element to an array, and functions to return the location of an element in an array.
+
+The script for the process is contained in the 'Main' module.
