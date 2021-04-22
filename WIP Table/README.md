@@ -22,7 +22,7 @@ Note:
 
 ![Result](Result.PNG)
 
-What is occurring here is that each combination of person and hourly rate is being consolidated and added together for each category. The category names themselves need to be sorted in ascending order and people need to be sorted in descending order based on who has the single highest hourly rate. I have used arrays extensively in this project to help it run quicker.
+What is occurring here is that each combination of person and hourly rate is being consolidated and added together for each category. The category names themselves need to be sorted in ascending order and people need to be sorted in descending order based on who has the single highest hourly rate. I have used arrays extensively in this project to help it run faster.
 
 This is in theory a relatively simple exercise, except that VBA does not have great support for arrays as far as built in functions go and so I had to create a lot of functions to help me. In the 'Common' module, there is a quicksort algorithm function that can sort a single array in ascending or descending order, a quicksort function that can sort mutli dimmensional arrays, a function to add a new element to an array, and functions to return the location of an element in an array.
 
