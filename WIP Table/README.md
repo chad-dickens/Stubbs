@@ -27,3 +27,5 @@ What is occurring here is that each combination of person and hourly rate is bei
 This is in theory a relatively simple exercise, except that VBA does not have great support for arrays as far as built in functions go and so I had to create a lot of functions to help me. In the 'Common' module, there is a quicksort algorithm function that can sort a single array in ascending or descending order, a quicksort function that can sort mutli dimmensional arrays, a function to add a new element to an array, and functions to return the location of an element in an array.
 
 The script for the process is contained in the 'Main' module.
+
+To distribute this project, I created an Excel Add-In using a template from here: https://www.thespreadsheetguru.com/myfirstaddin and pasted it here: C:\Users\[*Username*]\AppData\Roaming\Microsoft\Excel\XLSTART.
