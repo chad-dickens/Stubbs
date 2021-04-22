@@ -28,4 +28,4 @@ This is in theory a relatively simple exercise, except that VBA does not have gr
 
 The script for the process is contained in the 'Main' module.
 
-To distribute this project, I created an Excel Add-In using a template from here: https://www.thespreadsheetguru.com/myfirstaddin and pasted it here: C:\Users\[*Username*]\AppData\Roaming\Microsoft\Excel\XLSTART.
+To distribute this project, I created an Excel Add-In using a template from here: https://www.thespreadsheetguru.com/myfirstaddin and pasted it here: C:\Users\[*Username*]\AppData\Roaming\Microsoft\Excel\XLSTART on my computer so it would load everytime that Excel starts.
