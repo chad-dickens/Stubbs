@@ -2,6 +2,9 @@ Attribute VB_Name = "main"
 Option Explicit
 Option Base 1
 
+'This is the main module of the WIP table creation process.
+'Will create a WIP table to be used in a remuneration report.
+
 Sub create_table()
 
 'Will use the WIP listing table (Amanda or Remuneration Report (Chad) - directly out of APS) on
@@ -29,6 +32,14 @@ Dim arr As Variant
 Dim arr2() As Variant
 Dim arr3() As Variant
 Dim matchFound As Boolean
+
+'Variables for columns of input table
+'This is necessary incase if in future, the input table changes
+Dim inputDateCol As Byte: inputDateCol = 2
+Dim inputNameCol As Byte: inputNameCol = 3
+Dim inputHoursCol As Byte: inputHoursCol = 5
+Dim inputCatCol As Byte: inputCatCol = 6
+Dim inputRateCol As Byte: inputRateCol = 13
 
 Set wb = Application.ActiveWorkbook
 Set ws = Application.ActiveSheet
@@ -60,18 +71,17 @@ arr = ws.Cells(1, 1).CurrentRegion
 For i = 2 To UBound(arr)
 
     'Removing zz at the start of people's names
-    If LCase(Left(arr(i, 3), 2)) = "zz" Then arr(i, 3) = Mid(arr(i, 3), 3)
+    If LCase(Left(arr(i, inputNameCol), 2)) = "zz" Then arr(i, inputNameCol) = Mid(arr(i, inputNameCol), 3)
     'Triming peoples names of non letter characters
-    arr(i, 3) = name_trim(arr(i, 3))
-    'Removing zzz at the start of descriptions
-    If LCase(Left(arr(i, 6), 3)) = "zzz" Then arr(i, 6) = Mid(arr(i, 6), 4)
-    'Remove CVL at start of description
-    If LCase(Left(arr(i, 6), 3)) = "cvl" Then arr(i, 6) = Mid(arr(i, 6), 4)
+    arr(i, inputNameCol) = name_trim(arr(i, inputNameCol))
+    
+    'Removing strings we don't want from start of category names
+    For Each v In Array("zzz", "cvl", "cl")
+        If LCase(Left(arr(i, inputCatCol), Len(v))) = v Then arr(i, inputCatCol) = Mid(arr(i, inputCatCol), Len(v) + 1)
+    Next v
+    
     'Apply name trim to description
-    arr(i, 6) = name_trim(arr(i, 6))
-    'Triming position titles and making proper case
-    arr(i, 4) = Trim(arr(i, 4))
-    arr(i, 4) = StrConv(arr(i, 4), vbProperCase)
+    arr(i, inputCatCol) = name_trim(arr(i, inputCatCol))
     
 Next i
 
@@ -80,7 +90,7 @@ Set dict = CreateObject("Scripting.Dictionary")
 
 'Getting all unique category names
 For i = 2 To UBound(arr)
-    dict(arr(i, 6)) = 1
+    dict(arr(i, inputCatCol)) = 1
 Next i
 
 'Sorting these category names in ascending order
@@ -93,25 +103,25 @@ categories = quicksort(dict.keys())
 'The reason this is horizontal is because it is going to be constantly resized, and you can only
 'resize the last dimension in VBA arrays.
 ReDim arr2(3, 1) As Variant
-arr2(1, 1) = arr(2, 3)
-arr2(2, 1) = arr(2, 13)
-arr2(3, 1) = Array(arr(2, 13))
+arr2(1, 1) = arr(2, inputNameCol)
+arr2(2, 1) = arr(2, inputRateCol)
+arr2(3, 1) = Array(arr(2, inputRateCol))
 
 'Populating the new array
 For i = 3 To UBound(arr)
-    v = array_row(arr2, 1, arr(i, 3))
+    v = array_row(arr2, 1, arr(i, inputNameCol))
     
     'If the person already exists in the new array
     If v Then
         
         'Check that the rate is in the list of rates for this person
-        If Not is_in_array(arr2(3, v), arr(i, 13)) Then
+        If Not is_in_array(arr2(3, v), arr(i, inputRateCol)) Then
             'If not then add it
-            arr2(3, v) = add_to_array(arr2(3, v), arr(i, 13))
+            arr2(3, v) = add_to_array(arr2(3, v), arr(i, inputRateCol))
             
             'If the rate for this person is higher than the current highest we'll replace it
-            If arr(i, 13) > arr2(2, v) Then
-                arr2(2, v) = arr(i, 13)
+            If arr(i, inputRateCol) > arr2(2, v) Then
+                arr2(2, v) = arr(i, inputRateCol)
             End If
         End If
         
@@ -122,9 +132,9 @@ For i = 3 To UBound(arr)
         'Resizing the array
         ReDim Preserve arr2(3, j) As Variant
         'Inputting a new row
-        arr2(1, j) = arr(i, 3)
-        arr2(2, j) = arr(i, 13)
-        arr2(3, j) = Array(arr(i, 13))
+        arr2(1, j) = arr(i, inputNameCol)
+        arr2(2, j) = arr(i, inputRateCol)
+        arr2(3, j) = Array(arr(i, inputRateCol))
         
     End If
     
@@ -194,15 +204,17 @@ For i = 2 To UBound(arr)
     
     'Find the row in arr3 that matches this person and rate in arr
     For j = 1 To UBound(arr3)
-        If arr(i, 3) = arr3(j, 1) And arr(i, 13) = arr3(j, 3) Then
+        If arr(i, inputNameCol) = arr3(j, 1) And arr(i, inputRateCol) = arr3(j, 3) Then
             Exit For
         End If
     Next j
     
     'If the person currently does not have a position specified, this will populate one
-    If IsEmpty(arr3(j, 2)) Then arr3(j, 2) = arr(i, 4)
+    If IsEmpty(arr3(j, 2)) Then
+        arr3(j, 2) = return_position(arr(i, inputDateCol), arr(i, inputRateCol))
+    End If
     'This will tally up their hours for each category
-    arr3(j, dict(arr(i, 6))) = arr3(j, dict(arr(i, 6))) + arr(i, 5)
+    arr3(j, dict(arr(i, inputCatCol))) = arr3(j, dict(arr(i, inputCatCol))) + arr(i, inputHoursCol)
     
 Next i
 

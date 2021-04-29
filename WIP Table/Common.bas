@@ -2,6 +2,8 @@ Attribute VB_Name = "Common"
 Option Explicit
 Option Base 1
 
+'This module contains general functions and procedures used by other modules
+
 '===========================================================================================================
 'GENERAL TOOLS
 '===========================================================================================================
