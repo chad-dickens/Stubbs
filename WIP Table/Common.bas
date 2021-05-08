@@ -3,6 +3,7 @@ Option Explicit
 Option Base 1
 
 'This module contains general functions and procedures used by other modules
+'Credit to Leigh A for the inspiration for this module and the underlying ideas for some of these functions.
 
 '===========================================================================================================
 'GENERAL TOOLS
