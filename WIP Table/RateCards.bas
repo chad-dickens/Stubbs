@@ -24,19 +24,19 @@ Function retrieve_rate_card() As Variant
     
     firstTranche = Array("Partner", "Director", "Senior Manager", "Manager", "Supervisor", "Senior Accountant 1", "Senior Accountant 2", "Intermediate Accountant 1", "Intermediate Accountant 2", "Accountant", "Senior Administration", "Administration")
     
-    rateCard(1, 2) = Array(firstTranche, Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
-    rateCard(2, 2) = Array(firstTranche, Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
-    rateCard(3, 2) = Array(firstTranche, Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    rateCard(1, 2) = Array(firstTranche, Array(650, 595, 550, 525, 455, 405, 375, 325, 305, 280, 235, 175))
+    rateCard(2, 2) = Array(firstTranche, Array(625, 570, 525, 500, 430, 380, 350, 300, 280, 255, 210, 150))
+    rateCard(3, 2) = Array(firstTranche, Array(625, 570, 525, 500, 420, 370, 340, 295, 275, 250, 210, 150))
                            
     secondTranche = Array("Partner", "Associate Director", "Senior Manager", "Manager", "Supervisor", "Senior Accountant 1", "Senior Accountant 2", "Intermediate Accountant 1", "Intermediate Accountant 2", "Accountant", "Senior Secretary", "Secretary")
     
-    rateCard(4, 2) = Array(secondTranche, Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
-    rateCard(5, 2) = Array(secondTranche, Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
-    rateCard(6, 2) = Array(secondTranche, Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    rateCard(4, 2) = Array(secondTranche, Array(595, 540, 500, 475, 400, 350, 325, 280, 260, 240, 200, 140))
+    rateCard(5, 2) = Array(secondTranche, Array(565, 495, 440, 410, 355, 300, 275, 205, 175, 145, 175, 130))
+    rateCard(6, 2) = Array(secondTranche, Array(525, 450, 400, 375, 325, 275, 250, 190, 160, 135, 160, 120))
     
     thirdTranche = Array("Appointee / Director", "Associate Director", "Supervisor", "Secretary")
     
-    rateCard(7, 2) = Array(thirdTranche, Array(0, 0, 0, 0))
+    rateCard(7, 2) = Array(thirdTranche, Array(435, 300, 185, 130))
     
     retrieve_rate_card = rateCard
 
@@ -81,4 +81,3 @@ Public Function return_position(ByVal wipDate As Date, ByVal hourlyRate As Curre
     Next i
 
 End Function
-
