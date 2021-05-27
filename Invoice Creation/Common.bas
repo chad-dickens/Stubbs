@@ -1,6 +1,9 @@
 Attribute VB_Name = "Common"
 Option Explicit
 
+'This module contains general functions and procedures used by other modules
+'Credit to Leigh A for the inspiration for this module and the underlying ideas for some of these functions.
+
 '===========================================================================================================
 'GENERAL TOOLS
 '===========================================================================================================
