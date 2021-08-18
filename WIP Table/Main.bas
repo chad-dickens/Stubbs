@@ -96,6 +96,17 @@ Next i
 'Sorting these category names in ascending order
 categories = quicksort(dict.keys())
 
+
+'Ensuring that the Administration column in the final table always appears last
+For Each v In Array("Administration", "Statutory/administration")
+    
+    If Common.is_in_array(categories, v) Then
+        categories = Common.remove_from_array(categories, v)
+        categories = Common.add_to_array(categories, v)
+    End If
+    
+Next v
+
 'Creating an array of each person's name, their highest pay level, and an array of the different
 'pay levels they have
 

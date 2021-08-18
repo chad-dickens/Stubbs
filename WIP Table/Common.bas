@@ -3,7 +3,6 @@ Option Explicit
 Option Base 1
 
 'This module contains general functions and procedures used by other modules
-'Credit to Leigh A for the inspiration for this module and the underlying ideas for some of these functions.
 
 '===========================================================================================================
 'GENERAL TOOLS
@@ -158,14 +157,9 @@ End Function
 Public Function add_to_array(anArray As Variant, addition As Variant) As Variant
 'Adds item to one dimensional array
 
-    Dim i As Integer
-    
-    Dim v() As Variant
-    ReDim v(LBound(anArray) To UBound(anArray) + 1) As Variant
-    
-    For i = LBound(anArray) To UBound(anArray)
-        v(i) = anArray(i)
-    Next i
+    Dim v As Variant
+    v = anArray
+    ReDim Preserve v(LBound(anArray) To UBound(anArray) + 1)
     
     v(UBound(v)) = addition
     add_to_array = v
@@ -234,6 +228,42 @@ Public Function horizontal_array_sort(ByVal myArray As Variant, colNum As Long) 
 'For the purpose of creating a function out of run_horizontal_array_sort that returns a value
     Call run_horizontal_array_sort(myArray, colNum, LBound(myArray, 2), UBound(myArray, 2))
     horizontal_array_sort = myArray
+
+End Function
+
+Public Function remove_from_array(myArray As Variant, element As Variant) As Variant
+'Will remove all instances of an element from a one dimensional array
+    
+    'Variable to determine how large the new array will be
+    Dim count As Long
+    count = 0
+    
+    'Counting the number of items in the new array after removal
+    Dim v As Variant
+    For Each v In myArray
+        If v <> element Then
+            count = count + 1
+        End If
+    Next v
+    
+    'Returning blank array and exiting if no items left after removal
+    If count = 0 Then
+        remove_from_array = Array()
+        Exit Function
+    End If
+    
+    'Building new array
+    Dim newArray() As Variant
+    ReDim newArray(count)
+    count = 0
+    For Each v In myArray
+        If v <> element Then
+            count = count + 1
+            newArray(count) = v
+        End If
+    Next v
+    
+    remove_from_array = newArray
 
 End Function
 
